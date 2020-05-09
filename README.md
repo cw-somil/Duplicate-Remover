@@ -1,6 +1,7 @@
 ## Find Duplicate and Similar Images
 
 Check out the tutorial
+[Remove Duplicates and Find Similar Images with Python](https://medium.com/@somilshah112/how-to-find-duplicate-or-similar-images-quickly-with-python-2d636af9452f)
 
 ## Install Requirements
 

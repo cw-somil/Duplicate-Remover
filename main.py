@@ -1,9 +1,10 @@
 from DuplicateRemover import DuplicateRemover
-import time
 
 dirname = "images"
+
+# Remove Duplicates
 dr = DuplicateRemover(dirname)
 dr.find_duplicates()
 
-time.sleep(2)
+# Find Similar Images
 dr.find_similar("IMG-20110704-00007.jpg",70)
