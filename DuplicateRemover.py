@@ -18,13 +18,16 @@ class DuplicateRemover:
         duplicates = []
         print("Finding Duplicates Now!\n")
         for image in fnames:
-            with Image.open(os.path.join(self.dirname,image)) as img:
-                temp_hash = imagehash.average_hash(img, self.hash_size)
-                if temp_hash in hashes:
-                    print("Duplicate {} \nfound for Image {}!\n".format(image,hashes[temp_hash]))
-                    duplicates.append(image)
-                else:
-                    hashes[temp_hash] = image
+            try:
+                with Image.open(os.path.join(self.dirname,image)) as img:
+                    temp_hash = imagehash.average_hash(img, self.hash_size)
+                    if temp_hash in hashes:
+                        print("Duplicate {} \nfound for Image {}!\n".format(image,hashes[temp_hash]))
+                        duplicates.append(image)
+                    else:
+                        hashes[temp_hash] = image
+            except Image.UnidentifiedImageError:
+                os.remove(os.path.join(self.dirname,image))
                    
         if len(duplicates) != 0:
             a = input("Do you want to delete these {} Images? Press Y or N:  ".format(len(duplicates)))
