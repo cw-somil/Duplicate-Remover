@@ -4,6 +4,9 @@ import os
 import numpy as np
 
 class DuplicateRemover:
+
+    extensions = ['png', 'jpg', 'jpeg', 'gif']
+
     def __init__(self,dirname,hash_size = 8):
         self.dirname = dirname
         self.hash_size = hash_size
@@ -18,13 +21,14 @@ class DuplicateRemover:
         duplicates = []
         print("Finding Duplicates Now!\n")
         for image in fnames:
-            with Image.open(os.path.join(self.dirname,image)) as img:
-                temp_hash = imagehash.average_hash(img, self.hash_size)
-                if temp_hash in hashes:
-                    print("Duplicate {} \nfound for Image {}!\n".format(image,hashes[temp_hash]))
-                    duplicates.append(image)
-                else:
-                    hashes[temp_hash] = image
+            if image.lower().strip('.')[-1] in self.extensions:
+                with Image.open(os.path.join(self.dirname,image)) as img:
+                    temp_hash = imagehash.average_hash(img, self.hash_size)
+                    if temp_hash in hashes:
+                        print("Duplicate {} \nfound for Image {}!\n".format(image,hashes[temp_hash]))
+                        duplicates.append(image)
+                    else:
+                        hashes[temp_hash] = image
                    
         if len(duplicates) != 0:
             a = input("Do you want to delete these {} Images? Press Y or N:  ".format(len(duplicates)))
@@ -55,11 +59,12 @@ class DuplicateRemover:
         
         print("Finding Similar Images to {} Now!\n".format(location))
         for image in fnames:
-            with Image.open(os.path.join(self.dirname,image)) as img:
-                hash2 = imagehash.average_hash(img, self.hash_size).hash
-                
-                if np.count_nonzero(hash1 != hash2) <= diff_limit:
-                    print("{} image found {}% similar to {}".format(image,similarity,location))
+            if image.lower().strip('.')[-1] in self.extensions:
+                with Image.open(os.path.join(self.dirname,image)) as img:
+                    hash2 = imagehash.average_hash(img, self.hash_size).hash
+                    
+                    if np.count_nonzero(hash1 != hash2) <= diff_limit:
+                        print("{} image found {}% similar to {}".format(image,similarity,location))
                     
                     
                     
