@@ -21,7 +21,7 @@ class DuplicateRemover:
         duplicates = []
         print("Finding Duplicates Now!\n")
         for image in fnames:
-            if image.lower().strip('.')[-1] in self.extensions:
+            if list(image.lower().split('.'))[-1] in self.extensions:
                 with Image.open(os.path.join(self.dirname,image)) as img:
                     temp_hash = imagehash.average_hash(img, self.hash_size)
                     if temp_hash in hashes:
@@ -59,7 +59,7 @@ class DuplicateRemover:
         
         print("Finding Similar Images to {} Now!\n".format(location))
         for image in fnames:
-            if image.lower().strip('.')[-1] in self.extensions:
+            if list(image.lower().split('.'))[-1] in self.extensions:
                 with Image.open(os.path.join(self.dirname,image)) as img:
                     hash2 = imagehash.average_hash(img, self.hash_size).hash
                     
